@@ -99,8 +99,14 @@ def writeCtsDataBlock(vcn:Vector[CitableNode], delimiter:String = defaultDelim) 
     (Vector(blockHeader) ++ data).mkString("\n")
 }
 
-def writeTextRepository(repo:TextRepository, standalone:Boolean = false, delimiter:String = defaultDelim) = {
-  ""
+def writeTextRepository(tr:TextRepository, standalone:Boolean = false, delimiter:String = defaultDelim) = {
+  val cexMetadata:String = {
+    if (standalone) writeCexMetadata() else ""
+  }
+  val o2cat:String = writeCtsCatalogBlock(tr.catalog.texts)
+  val o2data:String = writeCtsDataBlock(tr.corpus.nodes)
+  val vec:Vector[String] = Vector(cexMetadata, o2cat, o2data)
+  vec.mkString("\n\n")
 }
 
 

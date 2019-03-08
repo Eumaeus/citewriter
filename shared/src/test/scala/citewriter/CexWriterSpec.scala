@@ -33,7 +33,7 @@ urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.1#however
 urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.2#selected
 """
 
-  def loadLibrary(cexString:String = cex):CiteLibrary = {
+  def loadLibrary(cexString:String = cex, delimOne:String = "#", delimTwo:String = ","):CiteLibrary = {
     val library = CiteLibrary(cexString,"#",",")
     library
   }
@@ -100,8 +100,16 @@ urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.2#selected"""
   }
 
   it should "be able to write a TextRepository to a valid CEX file" in {
-    val newCex:String = CexWriter.writeTextRepository( repo = lib.textRepository.get, standalone = true)
-    assert (false)
+    val newCex:String = CexWriter.writeTextRepository( tr = lib.textRepository.get, standalone = true)
+    try {
+      val newLib:CiteLibrary = loadLibrary(newCex)
+      assert ( newLib.textRepository != None )
+    } catch {
+      case e:Exception => {
+        println(s"\n${e}\n")
+        assert ( false )
+      }
+    }
   }
 
 }
