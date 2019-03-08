@@ -1,7 +1,6 @@
 package edu.furman.classics.citewriter
 import org.scalatest.FlatSpec
 
-import scala.io.Source
 import edu.holycross.shot.scm._
 import edu.holycross.shot.cite._
 import edu.holycross.shot.citeobj._
@@ -42,7 +41,7 @@ urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.2#νέας
     library
   }
 
-  lazy val lib:CiteLibrary = loadLibrary()
+  val lib:CiteLibrary = loadLibrary()
 
   "A CiteWriter" should "write a urn" in {
   	val urn:CtsUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001:msA:1.1")

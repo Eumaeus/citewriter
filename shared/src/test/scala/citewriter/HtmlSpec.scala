@@ -14,7 +14,7 @@ class HtmlWriterSpec extends FlatSpec {
   	val psg:String = "Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος"
   	val cn:CitableNode = CitableNode(urn, psg)
   	val serialized:String = HtmlWriter.writeCitableNode(cn)
-  	val expected:String = """<span class="cite_ohco2_citableNodeContainer" id="urn:cts:greekLit:tlg0012.tlg001.msA:1.1"><span class="cite_ohco1_passageComponent">1.1</span><span class="cite_ohco2_citableNodeText">Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος</span><span class="cite_ohco2_citableNodeUrn">urn:cts:greekLit:tlg0012.tlg001.msA:1.1</span></span>"""
+  	val expected:String = """<span class="ohco2_citableNodeContainer" id="urn:cts:greekLit:tlg0012.tlg001.msA:1.1"><span class="ohco1_passageComponent">1.1</span><span class="ohco2_citableNodeText">Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος</span><span class="ohco2_ctsUrn">urn:cts:greekLit:tlg0012.tlg001.msA:1.1</span></span>"""
   	assert ( serialized == expected )
   }
 

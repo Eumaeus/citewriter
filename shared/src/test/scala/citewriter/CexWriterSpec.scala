@@ -1,7 +1,6 @@
 package edu.furman.classics.citewriter
 import org.scalatest.FlatSpec
 
-import scala.io.Source
 import edu.holycross.shot.scm._
 import edu.holycross.shot.cite._
 import edu.holycross.shot.citeobj._
@@ -23,19 +22,16 @@ license#CC Share Alike.  For details, see more info.
 #!ctscatalog
 urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online#lang
 urn:cts:greekLit:tlg0016.tlg001.grc_tokens:#book/section/token#Herodotus#Histories#Tokenized Greek, Godley, ed.##true#grc
+urn:cts:greekLit:tlg0016.tlg001.eng_tokens:#book/section/token#Herodotus#Histories#Tokenized English, trans. Godley##true#eng
 
 #!ctsdata
 urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0#Ἀθηναίων
 urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.1#δὲ
 urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.2#νέας
+urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.0#Themistocles
+urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.1#however
+urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.2#selected
 """
-
-  /*
-  def loadLibrary(fp:String = cexPath):CiteLibrary = {
-  	val library = CiteLibrary(Source.fromFile(fp).getLines.mkString("\n"),"#",",")
-  	library
-  }
-  */
 
   def loadLibrary(cexString:String = cex):CiteLibrary = {
     val library = CiteLibrary(cexString,"#",",")
@@ -43,7 +39,7 @@ urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.2#νέας
   }
 
 
-  lazy val lib:CiteLibrary = loadLibrary()
+  val lib:CiteLibrary = loadLibrary()
 
   "A CexWriter" should "serialize a citable node" in {
   	val urn:CtsUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001:msA:1.1")
@@ -71,5 +67,42 @@ urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.2#νέας
   	val cex:String = CexWriter.writeCtsCatalogEntry(ce,"$")
   	assert ( cex == expected )
   }
+
+  it should "serialize a cts catalog block" in {
+
+    val expected:String = """#!ctscatalog
+urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online#lang
+urn:cts:greekLit:tlg0016.tlg001.grc_tokens:#book/section/token#Herodotus#Histories#Tokenized Greek, Godley, ed.##true#grc
+urn:cts:greekLit:tlg0016.tlg001.eng_tokens:#book/section/token#Herodotus#Histories#Tokenized English, trans. Godley##true#eng"""
+
+      val ce1:CatalogEntry = {
+        lib.textRepository.get.catalog.entriesForUrn(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.grc_tokens:"))(0)
+      } 
+      val ce2:CatalogEntry = {
+        lib.textRepository.get.catalog.entriesForUrn(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng_tokens:"))(0)
+      } 
+      val vce:Vector[CatalogEntry] = Vector(ce1,ce2)
+      val catBlock:String = CexWriter.writeCtsCatalogBlock(vce)
+      assert( catBlock == expected )
+  }
+
+  it should "serialize a cts data block" in {
+    val vcn:Vector[CitableNode] = lib.textRepository.get.corpus.nodes
+    val dataBlock:String = CexWriter.writeCtsDataBlock(vcn)
+    val expected:String = """#!ctsdata
+urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0#Ἀθηναίων
+urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.1#δὲ
+urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.2#νέας
+urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.0#Themistocles
+urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.1#however
+urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.2#selected"""
+    assert ( dataBlock == expected )
+  }
+
+  it should "be able to write a TextRepository to a valid CEX file" in {
+    val newCex:String = CexWriter.writeTextRepository( repo = lib.textRepository.get, standalone = true)
+    assert (false)
+  }
+
 }
 
