@@ -8,7 +8,7 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.seqcomp._
 import edu.holycross.shot.citerelation._
 
-class CexWriterSpec extends FlatSpec {
+class CexWriterOhco2Spec extends FlatSpec {
 
   //val cexPath:String = "src/test/resources/minimal.cex"
   val cex:String = """#!cexversion

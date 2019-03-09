@@ -53,10 +53,7 @@ object HtmlWriter extends CiteWriter {
 
  }
 
- def writeCiteCollectionDef(cd: edu.holycross.shot.citeobj.CiteCollectionDef): String = {
-    ""
- } 
-  def writeCiteObjectPropertyDef(opd:CitePropertyDef):String = {
+  def writeCitePropertyDef(opd:CitePropertyDef):String = {
     ""
   }
 
@@ -66,6 +63,18 @@ object HtmlWriter extends CiteWriter {
   
   def writeCitePropertyValue(pv:CitePropertyValue):String = {
     "" 
+  }
+
+  def writeCiteTriple(cr:CiteTriple):String = {
+    ""
+  }
+
+  def writeCiteRelationSet(cr: CiteRelationSet): String = {
+    ""
+  }
+
+  def writeCiteCollectionDef(ccd:CiteCollectionDef) = {
+    ""
   }
 
 

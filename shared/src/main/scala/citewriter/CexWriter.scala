@@ -112,8 +112,22 @@ def writeTextRepository(tr:TextRepository, standalone:Boolean = false, delimiter
 
  /* CiteObject */
 
-  def writeCiteObjectPropertyDef(opd:CitePropertyDef):String = {
-    ""
+  def writeCitePropertyDef(cpd:CitePropertyDef, delim1:String, delim2:String):String = {
+      val urn:String = cpd.urn.toString
+      val label:String = cpd.label
+      val propType:String = cpd.propertyType.cex
+      val vocabList:String = cpd.vocabularyList.mkString(delim2)
+      val vec:Vector[String] = Vector(
+        urn,
+        label,
+        propType,
+        vocabList
+      )
+      vec.mkString(delim1)
+  }
+
+  def writeCitePropertyDef(cpd:CitePropertyDef):String = {
+      writeCitePropertyDef(cpd, defaultDelim, defaultSecondDelim)
   }
 
   def writeCiteObject(co:CiteObject):String = {
@@ -123,5 +137,23 @@ def writeTextRepository(tr:TextRepository, standalone:Boolean = false, delimiter
   def writeCitePropertyValue(pv:CitePropertyValue):String = {
     "" 
   }
+
+  def writeCiteCollectionDef(ccd:CiteCollectionDef):String = {
+    ""
+  }
+
+  def writeCiteCollectionsBlock(cr:CiteCatalog):String = {
+    ""
+  }
+
+  /* CiteRelation */
+
+  def writeCiteTriple(cr:CiteTriple):String = {
+    ""
+  } 
+  def writeCiteRelationSet(cr:CiteRelationSet):String = {
+    ""
+  }
+
 
 }
