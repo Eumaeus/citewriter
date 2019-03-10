@@ -130,20 +130,114 @@ def writeTextRepository(tr:TextRepository, standalone:Boolean = false, delimiter
       writeCitePropertyDef(cpd, defaultDelim, defaultSecondDelim)
   }
 
-  def writeCiteObject(co:CiteObject):String = {
-    ""
+  def writeCitePropertiesBlock(ccd:CiteCollectionDef, delim1:String, delim2:String):String = {
+    val headerVec:Vector[String] = Vector(
+        "#!citeproperties",
+        "Property#Label#Type#Authority list"
+    )
+    val propVec:Vector[String] = ccd.propertyDefs.map(pd => {
+      writeCitePropertyDef(pd, delim1, delim2)
+    })
+    (headerVec ++ propVec).mkString("\n")
+  }
+
+  def writeCitePropertiesBlock(ccd:CiteCollectionDef):String = {
+    writeCitePropertiesBlock(ccd, defaultDelim, defaultSecondDelim)
+  }
+
+  def writeCiteObject(co:CiteObject, cd:CiteCollectionDef, delim1:String, delim2:String):String = {
+      val props:Vector[CitePropertyImplementation] = co.propertyList
+      val propStr:Vector[String] = props.map(p => {
+          val orderPropOpt:Option[Cite2Urn] = cd.orderingProperty
+          orderPropOpt match {
+            case Some(op) => {
+              if (op == p.urn.dropSelector){
+                p.propertyValue.toString.toFloat.toInt.toString
+              } else {
+                p.propertyValue.toString
+              }
+            }
+            case None => {
+                p.propertyValue.toString
+            }
+          }
+      })
+      val urnAndLabel:Vector[String] = {
+          Vector( co.urn.toString, co.label)
+      } 
+      val allVec:Vector[String] = urnAndLabel ++ propStr
+      allVec.mkString(delim1)
+  }
+
+  def writeCiteObject(co:CiteObject, cd:CiteCollectionDef):String = {
+     writeCiteObject(co, cd, defaultDelim, defaultSecondDelim) 
   }
 
   def writeCitePropertyValue(pv:CitePropertyValue):String = {
-    "" 
+    pv.propertyValue.toString
+  }
+
+  def writeCiteCollectionDef(cd:CiteCollectionDef, delim1:String):String = {
+    val urn:String = cd.urn.toString
+    val collectionLabel:String = cd.collectionLabel
+    val labelProperty:String = cd.labelProperty.toString
+    val orderingProperty:String = {
+      cd.orderingProperty match {
+        case Some(op) => op.toString
+        case None => ""
+      }
+    }
+    val license:String = cd.license
+    val stringVec:Vector[String] = Vector(urn, collectionLabel, labelProperty,orderingProperty,license)
+    stringVec.mkString(delim1)
   }
 
   def writeCiteCollectionDef(ccd:CiteCollectionDef):String = {
-    ""
+    writeCiteCollectionDef(ccd, defaultDelim)
   }
 
-  def writeCiteCollectionsBlock(cr:CiteCatalog):String = {
-    ""
+  def writeCiteCollectionsBlock(cr:CiteCollectionRepository, delim1:String ):String = {
+    val vecDefs:Vector[CiteCollectionDef] = cr.catalog.collections
+    val vecStrings:Vector[String] = vecDefs.map( ccd => {
+      writeCiteCollectionDef(ccd, delim1 )
+    })
+    val headerVec:Vector[String] = Vector(
+        "#!citecollections",
+        "URN#Description#Labelling property#Ordering property#License"
+    )
+    (headerVec ++ vecStrings).mkString("\n")
+  }
+
+  def writeCiteCollectionsBlock(cr:CiteCollectionRepository):String = {
+    writeCiteCollectionsBlock(cr, defaultDelim)
+  }
+
+  def writeCollectionRepository(cr:CiteCollectionRepository, standalone:Boolean = false, delim1:String = defaultDelim, delim2:String = defaultSecondDelim):String = {
+    val cexMetadata:String = {
+      if (standalone) writeCexMetadata() else ""
+    }
+    val crCat:String = writeCiteCollectionsBlock(cr)
+    val crProps:String = {
+      cr.catalog.collections.map( coll => {
+        writeCitePropertiesBlock(coll, delim1, delim2)
+      }).mkString("\n\n")
+    }
+    val citeDataHeader:String = "#!citedata"
+    val citeData:String = {
+       cr.catalog.collections.map( coll => {
+          val citeDataPropHeader:String = {
+              cr.catalog.collection(coll.urn).get.propertyDefs.map( _.urn.property).mkString(delim1)   
+          }
+          val dataBlock:Vector[String] = cr.objectsForCollection(coll.urn).map(obj => {
+            writeCiteObject(obj, coll, delim1, delim2)
+          })
+          (Vector(citeDataHeader) ++ Vector(citeDataPropHeader) ++ dataBlock).mkString("\n")
+      }).mkString("\n\n")
+    }
+
+    val vec:Vector[String] = Vector(cexMetadata, crCat, crProps, citeData)
+    val crCex:String = vec.mkString("\n\n")
+    crCex
   }
 
   /* CiteRelation */

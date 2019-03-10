@@ -57,12 +57,12 @@ object HtmlWriter extends CiteWriter {
     ""
   }
 
-  def writeCiteObject(co:CiteObject):String = {
+  def writeCiteObject(co:CiteObject, cd:CiteCollectionDef):String = {
     ""
   }
   
   def writeCitePropertyValue(pv:CitePropertyValue):String = {
-    "" 
+      pv.toString
   }
 
   def writeCiteTriple(cr:CiteTriple):String = {

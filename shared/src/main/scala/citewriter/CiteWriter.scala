@@ -21,7 +21,7 @@ import scala.scalajs.js.annotation._
   def writeCtsCatalogEntry(ce:CatalogEntry):String
 
   def writeCitePropertyDef(opd:CitePropertyDef):String
-  def writeCiteObject(co:CiteObject):String
+  def writeCiteObject(co:CiteObject, cd:CiteCollectionDef):String
   def writeCitePropertyValue(pv:CitePropertyValue):String
   def writeCiteCollectionDef(ccd:CiteCollectionDef):String
 
