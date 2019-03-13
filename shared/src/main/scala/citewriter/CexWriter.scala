@@ -243,11 +243,52 @@ def writeTextRepository(tr:TextRepository, standalone:Boolean = false, delimiter
   /* CiteRelation */
 
   def writeCiteTriple(cr:CiteTriple):String = {
-    ""
-  } 
-  def writeCiteRelationSet(cr:CiteRelationSet):String = {
-    ""
+    writeCiteTriple(cr, defaultDelim)
   }
 
+  def writeCiteTriple(cr:CiteTriple, delim1:String):String = {
+    s"${cr.urn1}${delim1}${cr.relation}${delim1}${cr.urn2}"
+  } 
+
+  def writeCiteRelationSet(cr:CiteRelationSet):String = {
+    writeCiteRelationSet(cr, defaultDelim)
+  }
+
+  def writeCiteRelationSet(cr:CiteRelationSet, delim1:String):String = {
+    val header:String = "\n#!relations"
+    val relVec:Vector[String] = cr.relations.map( t => writeCiteTriple(t, delim1) ).toVector
+    val cexVec:Vector[String] = Vector(header) ++ relVec
+    cexVec.mkString("\n")
+  }
+
+  def writeCiteRelationBlock(cr:CiteRelationSet, standalone:Boolean = false, delim1:String = defaultDelim):String = {
+    val header:String = {
+     if (standalone) writeCexMetadata(delimiter = delim1) else ""
+    }
+    val relCex:String = writeCiteRelationSet(cr,delim1)
+    header + "\n\n" + relCex
+  }
+
+  /* Data Models */
+
+  def writeDataModel(dm:DataModel, delim1:String = defaultDelim) = {
+    val collection:Cite2Urn = dm.collection
+    val model:Cite2Urn = dm.model
+    val label:String = dm.label
+    val description:String = dm.description
+    s"${collection}${delim1}${model}${delim1}${label}${delim1}${description}"
+  }
+
+  def writeDataModelBlock(dmv:Vector[DataModel], standalone:Boolean = false, delim1:String = defaultDelim) = {
+    val header:String = {
+     if (standalone) writeCexMetadata(delimiter = delim1) else ""
+    }
+    val dmHeader:String = "#!datamodels\nCollection#Model#Label#Description"
+    val dmCex:String = dmv.map( dm => {
+      writeDataModel(dm, delim1)
+    }).mkString("\n")
+    val dmBlockCex:String = header + "\n" + dmHeader + "\n" + dmCex
+    dmBlockCex
+  }
 
 }
