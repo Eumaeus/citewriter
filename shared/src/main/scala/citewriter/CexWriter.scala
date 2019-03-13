@@ -291,4 +291,44 @@ def writeTextRepository(tr:TextRepository, standalone:Boolean = false, delimiter
     dmBlockCex
   }
 
+  /* a whole CiteLibrary */
+
+  def writeCiteLibrary(
+    tr:Option[TextRepository] = None, 
+    cr:Option[CiteCollectionRepository] = None,
+    rs:Option[CiteRelationSet] = None,
+    dm:Option[Vector[DataModel]] = None,
+    standalone:Boolean = true,
+    delim1:String = defaultDelim,
+    delim2:String = defaultSecondDelim
+  ):String = {
+    
+    val header:String = {
+     if (standalone) writeCexMetadata(delimiter = delim1) else ""
+    }
+
+    val trCex:String = tr match {
+      case Some(repo) => writeTextRepository(repo, false, delim1)
+      case None => ""
+    }
+    val crCex:String = cr match {
+      case Some(repo) => writeCollectionRepository(repo, false, delim1, delim2)
+      case None => ""
+    }
+    val rsCex:String = rs match {
+      case Some(repo) => writeCiteRelationBlock(repo, false, delim1)
+      case None => ""
+    }
+    val dmCex:String = dm match {
+      case Some(repo) => writeDataModelBlock(repo, false, delim1)
+      case None => ""
+    }
+
+    val cexVec:Vector[String] = Vector(header, trCex, crCex, rsCex, dmCex)
+    cexVec.mkString("\n")
+
+  }
+
+
+
 }
