@@ -53,16 +53,41 @@ object HtmlWriter extends CiteWriter {
 
  }
 
-  def writeCitePropertyDef(opd:CitePropertyDef):String = {
-    ""
+
+
+
+  def writeCitePropertyDef(cpd:CitePropertyDef):String = {
+    val strVec:Vector[String] = Vector(
+      """<span class="citeobj_propertyDef">""",
+      s"""<span class="citeobj_propertyDef_urn">${cpd.urn}</span>""",
+      s"""<span class="citeobj_propertyDef_label">${cpd.label}</span>""",
+      s"""<span class="citeobj_propertyDef_type">${cpd.propertyType.cex}</span>""",
+      s"""<span class="citeobj_propertyDef_vocab">${cpd.vocabularyList.mkString(", ")}</span>""",
+      """</span>"""
+    )
+    strVec.mkString
   }
 
   def writeCiteObject(co:CiteObject, cd:CiteCollectionDef):String = {
     ""
   }
-  
+
+/*
+
+<span class="citeobj_propertyValue">
+  <span class="citeobj_propertyValue_urn">urn:cite2:hmt:msB.v1.rv:12r</span>
+  <span class="citeobj_propertyValue_value">recto</span>
+</span>
+
+*/
   def writeCitePropertyValue(pv:CitePropertyValue):String = {
-      pv.toString
+      val strVec:Vector[String] = Vector(
+        """<span class="citeobj_propertyValue">""",
+        s"""<span class="citeobj_propertyValue_urn">${pv.urn}</span>""",
+        s"""<span class="citeobj_propertyValue_value">${pv.propertyValue}</span>""",
+        """</span>"""
+      )
+      strVec.mkString
   }
 
   def writeCiteTriple(cr:CiteTriple):String = {
