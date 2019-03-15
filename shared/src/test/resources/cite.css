@@ -1,0 +1,169 @@
+
+/* General */
+
+span.cite_urn {
+	border-radius: 6px;
+	border: 1px solid black;
+	padding: 2px 6px 4px 0;
+}
+
+span.cite_urn:before {
+	padding: 3px 6px 4px 3px;
+	margin-right: 4px;
+	color: white;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	content: "urn";
+}
+
+
+/* OHCO2 */
+
+span.ohco1_passageComponent {
+	margin-right: 1em;
+	font-size: 75%;
+	color: rgba(114, 38, 38,1);
+}
+
+span.ctsUrn {
+	margin: 0;
+	padding: 3px 6px 4px 0;
+	border: 1px solid rgba(114, 38, 38, 1);
+	border-radius: 6px;
+	background-color: rgba(114, 38, 38, 0.1);
+	color: rgba(114, 38, 38, 1);
+}
+
+span.ctsUrn:before {
+	background-color: rgba(114, 38, 38, 1);
+	color: white;
+}
+
+span.ohco2_catalogEntry_lang {
+	color: rgba(114, 38, 38, 1);
+}
+span.ohco2_catalogEntry_lang:before {
+	content: "[";
+}
+span.ohco2_catalogEntry_lang:after {
+	content: "]";
+}
+span.ohco2_catalogEntry_workTitle {
+	font-weight: bold;
+}
+span.ohco2_catalogEntry_versionLabel:before {
+	content: "(";
+}
+span.ohco2_catalogEntry_versionLabel:after {
+	content: ").";
+}
+span.ohco2_catalogEntry_citationScheme:before {
+	content: "Cited according to: ";
+}
+
+span.ohco2_catalogEntry_citationScheme {
+	color: rgba(114, 38, 38, 1);
+}
+
+span.ohco2_catalogEntry_online {
+	color: rgba(114, 38, 38, 1);
+}
+span.ohco2_catalogEntry_online:before {
+	content: "[";
+}
+span.ohco2_catalogEntry_online:after {
+	content: "]";
+}
+
+
+/* CiteObj */
+
+span.cite2Urn {
+	margin: 0;
+	padding: 3px 6px 4px 0;
+	border: 1px solid rgba(38, 38, 114, 1);
+	border-radius: 6px;
+	background-color: rgba(38, 38, 114, 0.1);
+	color: rgba(38, 38, 114, 1);
+}
+
+span.cite2Urn:before {
+	background-color: rgba(38, 38, 114, 1);
+	color: white;
+}
+
+span.citeobj_propertyDef span:before, span.citeobj_propertyValue span:before {
+	padding: 2px 6px 4px 3px;
+	margin-right: 4px;
+	color: white;
+	background-color: rgba(38, 38, 114, 1);
+	border: 1px solid rgba(38, 38, 114, 1);
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+
+span.citeobj_propertyDef > span.cite2Urn, span.citeobj_propertyValue > span.cite2Urn {
+	padding: 2px 6px 4px 0;
+}
+
+span.citeobj_propertyDef span, span.citeobj_propertyValue span {
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	padding: 2px 6px 4px 0;
+	background-color: rgba(38, 38, 114, 0.1);
+	color: rgba(38, 38, 114, 1);
+	border: 1px solid rgba(38, 38, 114, 1);
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+
+
+span.citeobj_propertyDef_label {
+
+}
+
+span.citeobj_propertyDef_label:before {
+	content: "label";
+}
+
+span.citeobj_propertyDef_type {
+
+}
+
+span.citeobj_propertyDef_type:before {
+	content: "type";
+}
+
+span.citeobj_propertyDef_vocab {
+
+}
+
+span.citeobj_propertyDef_vocab:before {
+	content: "controlled vocab";
+}
+
+span.citeobj_propertyValue_urn:before {
+	content: "urn";
+}
+
+span.citeobj_propertyValue_value:before {
+	content: "value";
+}
+
+
+/* General */
+
+body {
+	font: 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	line-height: 1.4em;
+	color: #4d4d4d;
+	/* width: 550px; */
+	margin: 3em;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-ms-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
