@@ -1,5 +1,7 @@
 # `citewriter`: release notes
 
+**1.0.0**: Reorganized Traits and Objects correctly. 
+
 **1.0.0**: CITE Writer Trait, CEX Writer object, and HTML Writer objects now feature-complete.
 
 **0.6.0**: Serialize CiteObjects to HTML.

@@ -18,7 +18,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file("."))
 	name := "citewriter",
 	organization := "edu.furman.classics",
 
-	version := "1.0.0",
+	version := "1.0.1",
 
 	licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
 

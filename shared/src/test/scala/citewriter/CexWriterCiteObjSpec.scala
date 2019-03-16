@@ -78,6 +78,20 @@ urn:cite2:fufolio:iliadAlign.blackwell:6#Iliad 4#Iliad Alignment 4#cwb#2/12/2019
   	assert ( serialized == expected )
   }
 
+  it should "serialize a citePropertyDef with alternate delimiters" in {
+    val urn:Cite2Urn = Cite2Urn("urn:cite2:hmt:msA.v1.rv:")
+    val label:String = "Recto or Verso"
+    val propType:CitePropertyType = ControlledVocabType
+    val vocabList:Vector[String] = Vector[String]("recto","verso")
+    val propDef:CitePropertyDef = CitePropertyDef(urn, label, propType, vocabList)
+
+    val expected:String = "urn:cite2:hmt:msA.v1.rv:@Recto or Verso@String@recto!verso"
+
+    val serialized:String = CexWriter.writeCitePropertyDef(propDef, "@","!")
+
+    assert ( serialized == expected )
+  }
+
   it should "serialize a cite property value" in {
     val prop:CitePropertyValue = (cr.data ~~ Cite2Urn("urn:cite2:fufolio:iliadAlign.blackwell.description:3")).data(0)
     assert ( CexWriter.writeCitePropertyValue(prop) == "Iliad Alignment 1")
@@ -92,10 +106,26 @@ urn:cite2:fufolio:iliadAlign.blackwell:6#Iliad 4#Iliad Alignment 4#cwb#2/12/2019
     assert (objCex == expected)
   }
 
+  it should "serialize a cite object with alternate delimiters" in {
+    val urn:Cite2Urn = Cite2Urn("urn:cite2:fufolio:iliadAlign.blackwell:3")
+    val obj:CiteObject = (cr ~~ urn)(0)
+    val collDef:CiteCollectionDef = cr.catalog.collection(urn.dropSelector).get
+    val objCex:String = CexWriter.writeCiteObject(obj, collDef, delim1 = "@", delim2="!")
+    val expected:String = "urn:cite2:fufolio:iliadAlign.blackwell:3@Iliad 1@Iliad Alignment 1@cwb@2/12/2019"
+    assert (objCex == expected)
+  }
+
   it should "serialize a Cite Collection Def" in {
     val expected:String = "urn:cite2:fufolio:hdtAlign.blackwell:#Translation alignments#urn:cite2:fufolio:hdtAlign.blackwell.label:##Public Domain"
     val ccd:CiteCollectionDef = cr.catalog.collection(Cite2Urn("urn:cite2:fufolio:hdtAlign.blackwell:")).get
     val serialized:String = CexWriter.writeCiteCollectionDef(ccd)  
+    assert ( serialized == expected )
+  }
+
+  it should "serialize a Cite Collection Def with alternate delimiters" in {
+    val expected:String = "urn:cite2:fufolio:hdtAlign.blackwell:@Translation alignments@urn:cite2:fufolio:hdtAlign.blackwell.label:@@Public Domain"
+    val ccd:CiteCollectionDef = cr.catalog.collection(Cite2Urn("urn:cite2:fufolio:hdtAlign.blackwell:")).get
+    val serialized:String = CexWriter.writeCiteCollectionDef(ccd, "@")  
     assert ( serialized == expected )
   }
 
@@ -120,8 +150,30 @@ urn:cite2:fufolio:hdtAlign.blackwell.date:#Date#String#"""
     assert (serialized == expected )
   }
 
+  it should "serialized a CiteProperties block with alternate delimiters" in {
+    val expected:String = """#!citeproperties
+Property@Label@Type@Authority list
+urn:cite2:fufolio:hdtAlign.blackwell.urn:@Alignment Record@Cite2Urn@
+urn:cite2:fufolio:hdtAlign.blackwell.label:@Label@String@
+urn:cite2:fufolio:hdtAlign.blackwell.description:@Description@String@
+urn:cite2:fufolio:hdtAlign.blackwell.editor:@Editor@String@
+urn:cite2:fufolio:hdtAlign.blackwell.date:@Date@String@"""
+    val ccd:CiteCollectionDef = cr.catalog.collection(Cite2Urn("urn:cite2:fufolio:hdtAlign.blackwell:")).get
+    val serialized:String = CexWriter.writeCitePropertiesBlock(ccd, "@","!")
+    assert (serialized == expected )
+  }
+
   it should "write a collection repository to a complete CEX file" in {
     val crCex:String = CexWriter.writeCollectionRepository(cr, true)
+    val newLib:CiteLibrary = loadLibrary(crCex)
+    val cr2Option:Option[CiteCollectionRepository] = newLib.collectionRepository
+    assert (cr2Option != None)
+    assert( cr2Option.get.catalog == cr.catalog  )
+    assert( cr2Option.get.data.size == cr.data.size  )
+  }
+
+  it should "write a collection repository to a complete CEX file with alternate delimiters" in {
+    val crCex:String = CexWriter.writeCollectionRepository(cr, true, "@","!")
     val newLib:CiteLibrary = loadLibrary(crCex)
     val cr2Option:Option[CiteCollectionRepository] = newLib.collectionRepository
     assert (cr2Option != None)

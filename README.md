@@ -4,7 +4,7 @@
 
 `citewriter` is a cross-platform library for serializing data from the [CITE-Architecture](https:cite-architecture.org).
 
-## Current version: 1.0.0
+## Current version: 1.0.1
 
 Status:  **active development**. [Release notes](releases.md)
 
