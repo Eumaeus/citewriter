@@ -1,5 +1,11 @@
 # `citewriter`: release notes
 
+**1.0.0**: CITE Writer Trait, CEX Writer object, and HTML Writer objects now feature-complete.
+
+**0.6.0**: Serialize CiteObjects to HTML.
+
+**0.5.0**: Serialize to HTML: all OHCO2 (following the CiteWriter trait), and CITE property definitions and values.
+
 **0.4.0**: Serialize a whole CITE Library to CEX. Only tested thoroughly with default delimiters ("#",",").
 
 **0.3.0**: Serializing to CEX all basic CITE primitives: OHCO2 Texts, CITE Objects, Relations, and Data Models. Only tested thoroughly with default delimiters ("#",","). 

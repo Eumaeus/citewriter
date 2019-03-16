@@ -177,6 +177,10 @@ def writeTextRepository(tr:TextRepository, standalone:Boolean = false, delimiter
     pv.propertyValue.toString
   }
 
+  def writeCitePropertyValue(pi:CitePropertyImplementation):String = {
+    pi.propertyValue.toString
+  }
+
   def writeCiteCollectionDef(cd:CiteCollectionDef, delim1:String):String = {
     val urn:String = cd.urn.toString
     val collectionLabel:String = cd.collectionLabel

@@ -1,109 +1,157 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>CITE Text Reader (Development 0.0.1)</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<link rel="stylesheet" type="text/css" href="cite.css">
-</head>
-<body>
+package edu.furman.classics.citewriter
+import org.scalatest.FlatSpec
 
-<h2>OHCO2</h2>
+import edu.holycross.shot.scm._
+import edu.holycross.shot.cite._
+import edu.holycross.shot.citeobj._
+import edu.holycross.shot.ohco2._
+import edu.holycross.shot.seqcomp._
+import edu.holycross.shot.citerelation._
 
-<h3>Citable Node</h3>
+class HtmlRelationsSpec extends FlatSpec {
 
-<span class="ohco2_citableNodeContainer" id="urn:cts:greekLit:tlg0012.tlg001.msA:1.1"><span class="ohco1_passageComponent">1.1</span><span class="ohco2_citableNodeText">Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος</span><span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0012.tlg001.msA:1.1</span></span>
+val cex:String = """#!cexversion
+3.0
 
-<h3>Catalog Entry</h3>
+#!citelibrary
+name#Fragment from Herodotus' Histories, Book VIII on Papyrus Oxyrhynchus 2099, dated to early 2nd century AD.
+urn#urn:cite2:cex:fufolio.2018a:POxy2099
+license#CC Share Alike.  For details, see more info.
 
-<span class="ohco2_catalogEntry_lang">grc</span> <span class="ohco2_catalogEntry_groupName">Herodotus</span> <span class="ohco2_catalogEntry_workTitle">Histories</span> <span class="ohco2_catalogEntry_versionLabel">Tokenized Greek, Godley, ed.</span> <span class="ohco2_catalogEntry_online">online</span> <span class="ohco2_catalogEntry_citationScheme">book/section/token</span> <span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0016.tlg001.grc_tokens:</span>
+#!datamodels
+Collection#Model#Label#Description
+urn:cite2:fufolio:hdtAlign.blackwell:#urn:cite2:cite:datamodels.v1:alignment#Text Alignment Model#The CITE model for text alignment. See documentation at <https://eumaeus.github.io/citealign/>.
+urn:cite2:fufolio:iliadAlign.blackwell:#urn:cite2:cite:datamodels.v1:alignment#Text Alignment Model#The CITE model for text alignment. See documentation at <https://eumaeus.github.io/citealign/>.
+
+#!citecollections
+URN#Description#Labelling property#Ordering property#License
+urn:cite2:cite:datamodels.v1:#CITE data models#urn:cite2:cite:datamodels.v1.label:##Public domain
+urn:cite2:cite:verbs.v1:#Collection of verbal relations#urn:cite2:cite:verbs.v1.label:##Public Domain
+urn:cite2:fufolio:hdtAlign.blackwell:#Translation alignments#urn:cite2:fufolio:hdtAlign.blackwell.label:##Public Domain
+urn:cite2:fufolio:iliadAlign.blackwell:#Translation alignments#urn:cite2:fufolio:iliadAlign.blackwell.label:##Public Domain
+
+#!citeproperties
+Property#Label#Type#Authority list
+urn:cite2:fufolio:hdtAlign.blackwell.urn:#Alignment Record#Cite2Urn#
+urn:cite2:fufolio:hdtAlign.blackwell.label:#Label#String#
+urn:cite2:fufolio:hdtAlign.blackwell.description:#Description#String#
+urn:cite2:fufolio:hdtAlign.blackwell.editor:#Editor#String#
+urn:cite2:fufolio:hdtAlign.blackwell.date:#Date#String#
+
+#!citeproperties
+Property#Label#Type#Authority list
+urn:cite2:fufolio:iliadAlign.blackwell.urn:#Alignment Record#Cite2Urn#
+urn:cite2:fufolio:iliadAlign.blackwell.label:#Label#String#
+urn:cite2:fufolio:iliadAlign.blackwell.description:#Description#String#
+urn:cite2:fufolio:iliadAlign.blackwell.editor:#Editor#String#
+urn:cite2:fufolio:iliadAlign.blackwell.date:#Date#String#
+
+#!citedata
+urn#label#description#editor#date
+urn:cite2:fufolio:hdtAlign.blackwell:1#Hdt. 1#Herodotus Alignment 1#cwb#2/12/2019
+urn:cite2:fufolio:hdtAlign.blackwell:2#Hdt. 2#Herodotus Alignment 2#cwb#2/12/2019
+
+#!citedata
+urn#label#description#editor#date
+urn:cite2:fufolio:iliadAlign.blackwell:3#Iliad 1#Iliad Alignment 1#cwb#2/12/2019
+urn:cite2:fufolio:iliadAlign.blackwell:4#Iliad 2#Iliad Alignment 2#cwb#2/12/2019
+urn:cite2:fufolio:iliadAlign.blackwell:5#Iliad 3#Iliad Alignment 3#cwb#2/12/2019
+urn:cite2:fufolio:iliadAlign.blackwell:6#Iliad 4#Iliad Alignment 4#cwb#2/12/2019
+
+#!relations
+// Hdt.
+urn:cite2:fufolio:hdtAlign.blackwell:1#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0-8.22.5
+urn:cite2:fufolio:hdtAlign.blackwell:1#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.3-8.22.10
+urn:cite2:fufolio:hdtAlign.blackwell:1#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.1
+urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.6-8.22.7
+urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.0
+urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.2
+urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.12
+
+#!citeproperties
+Property#Label#Type#Authority list
+urn:cite2:cite:verbs.v1.urn:#URN#Cite2Urn#
+urn:cite2:cite:verbs.v1.label:#label#String#
+urn:cite2:cite:verbs.v1.description:#description#String#
+
+#!citedata
+urn#label#description
+urn:cite2:cite:verbs.v1:commentsOn#comments on#subject[Urn] comments on object[Urn]
+urn:cite2:cite:verbs.v1:illustrates#illustrates#subject[Urn] comments on object[Urn]
+urn:cite2:cite:verbs.v1:hasOnIt#has on it#subject[Urn] comments on object[Urn]
+urn:cite2:cite:verbs.v1:aligns#aligns#subject[CiteUrn] is an alignment that includes passage[CtsUrn]
+
+#!citeproperties
+Property#Label#Type#Authority list
+urn:cite2:cite:datamodels.v1.urn:#Data model#Cite2Urn#
+urn:cite2:cite:datamodels.v1.label:#Label#String#
+urn:cite2:cite:datamodels.v1.description:#Description#String#
+
+#!citedata
+urn#label#description
+urn:cite2:cite:datamodels.v1:alignment#text alignment model#Aligning passages of OHCO2 texts. See <https://eumaeus.github.io/citealign/>.
+
+"""
+
+ def loadLibrary(cexString:String = cex):CiteLibrary = {
+    val library = CiteLibrary(cexString,"#",",")
+    library
+  }
+
+  val lib:CiteLibrary = loadLibrary()
+
+  def showMe(v:Any):Unit = {
+    v match {
+      case _:Iterable[Any] => println(s"""\n----\n${v.asInstanceOf[Iterable[Any]].mkString("\n")}\n----\n""")
+      case _ => println(s"\n-----\n${v}\n----\n")
+    }
+  }
 
 
-<h2>CiteObj</h2>
+/*
+urn:cite2:fufolio:hdtAlign.blackwell:1#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0-8.22.5
+urn:cite2:fufolio:hdtAlign.blackwell:1#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.3-8.22.10
+urn:cite2:fufolio:hdtAlign.blackwell:1#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.1
+urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.6-8.22.7
+*/
 
-<h3>CitePropertyDef</h3>
+  "A HtmlWriter" should "write a CiteTriple" in {
 
-<span class="citeobj_propertyDef">
-	<span class="cite_urn cite2Urn">urn:cite2:hmt:msB.v1.rv:</span>
-	<span class="citeobj_propertyDef_label">Recto or Verso</span>
-	<span class="citeobj_propertyDef_type">String</span>
-	<span class="citeobj_propertyDef_vocab">recto, verso</span>
-</span>
-
-<h3>CitePropertyValue</h3>
-
-<p>
-<span class="citeobj_propertyValue">
-	<span class="cite_urn cite2Urn">urn:cite2:hmt:msB.v1.rv:12r</span>
-	<span class="citeobj_propertyValue_value">recto</span>
-</span>
-</p>
-
-<p>
-<span class="citeobj_propertyValue">
-	<span class="citeobj_propertyDef_label">Description</span>
-	<span class="citeobj_propertyDef_type">String</span>
-	<span class="citeobj_propertyValue_value">Herodotus Alignment 1</span>
-	<span class="cite_urn cite2Urn">urn:cite2:fufolio:hdtAlign.blackwell.description:1</span>
-</span>
-</p>
-
-<h3>CiteObject</h3>
-
-<span class="citeobj_object">
-<span class="citeobj_objLabel">Iliad 1</span>
-<span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell:3</span>
-<span class="citeobj_propertyValue">
-<span class="citeobj_propertyDef_label">Description</span>
-<span class="citeobj_propertyDef_type">String</span>
-<span class="citeobj_propertyValue_value">Iliad Alignment 1</span>
-<span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell.description:3</span>
-</span>
-<span class="citeobj_propertyValue">
-<span class="citeobj_propertyDef_label">Editor</span>
-<span class="citeobj_propertyDef_type">String</span>
-<span class="citeobj_propertyValue_value">cwb</span>
-<span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell.editor:3</span>
-</span>
-<span class="citeobj_propertyValue">
-<span class="citeobj_propertyDef_label">Date</span>
-<span class="citeobj_propertyDef_type">String</span>
-<span class="citeobj_propertyValue_value">2/12/2019</span>
-<span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell.date:3</span>
-</span>
-</span>
-
-<h3>CITE Collection Def</h3>
-
-<span class="citeobj_collectionDef">
-<span class="citeobj_collectionLabel">Translation alignments</span>
-<span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell:</span>
-<span class="citeobj_propertyDef"><span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell.urn:</span><span class="citeobj_propertyDef_label">Alignment Record</span><span class="citeobj_propertyDef_type">Cite2Urn</span><span class="citeobj_propertyDef_vocab"></span></span>
-<span class="citeobj_propertyDef"><span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell.label:</span><span class="citeobj_propertyDef_label">Label</span><span class="citeobj_propertyDef_type">String</span><span class="citeobj_propertyDef_vocab"></span></span>
-<span class="citeobj_propertyDef"><span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell.description:</span><span class="citeobj_propertyDef_label">Description</span><span class="citeobj_propertyDef_type">String</span><span class="citeobj_propertyDef_vocab"></span></span>
-<span class="citeobj_propertyDef"><span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell.editor:</span><span class="citeobj_propertyDef_label">Editor</span><span class="citeobj_propertyDef_type">String</span><span class="citeobj_propertyDef_vocab"></span></span>
-<span class="citeobj_propertyDef"><span class="cite_urn cite2Urn">urn:cite2:fufolio:iliadAlign.blackwell.date:</span><span class="citeobj_propertyDef_label">Date</span><span class="citeobj_propertyDef_type">String</span><span class="citeobj_propertyDef_vocab"></span></span>
-<span class="citeobj_collLicense">Public Domain</span>
-</span>
-
-<h2>CITE Relations</h2>
-
-<h3>CITE Triple</h3>
-
-<span class="citerelations_citeTriple">
+    val s:Urn = Cite2Urn("urn:cite2:fufolio:hdtAlign.blackwell:1")
+    val v:Cite2Urn = Cite2Urn("urn:cite2:cite:verbs.v1:aligns")
+    val o:Urn = CtsUrn("urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0-8.22.5")
+    val ct:CiteTriple = CiteTriple(s,v,o)
+    val serialized:String = HtmlWriter.writeCiteTriple(ct)
+    val expected:String = """<span class="citerelations_citeTriple">
 <span class="citerelations_subject"><span class="cite_urn cite2Urn">urn:cite2:fufolio:hdtAlign.blackwell:1</span></span>
 <span class="citerelations_relation"><span class="cite_urn cite2Urn">urn:cite2:cite:verbs.v1:aligns</span></span>
 <span class="citerelations_object"><span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0-8.22.5</span></span>
-</span>
+</span>"""
+    //showMe(serialized)
+    assert( serialized == expected )
+  }
 
-<span class="citerelations_citeTriple">
+  it should "write a CiteTriple with labeling on the verb if possible" in {
+    val s:Urn = Cite2Urn("urn:cite2:fufolio:hdtAlign.blackwell:1")
+    val v:Cite2Urn = Cite2Urn("urn:cite2:cite:verbs.v1:aligns")
+    val o:Urn = CtsUrn("urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0-8.22.5")
+    val ct:CiteTriple = CiteTriple(s,v,o)
+    val serialized:String = HtmlWriter.writeCiteTriple(ct, lib.collectionRepository)
+    val expected:String = """<span class="citerelations_citeTriple">
 <span class="citerelations_subject"><span class="cite_urn cite2Urn">urn:cite2:fufolio:hdtAlign.blackwell:1</span></span>
 <span class="citerelations_relation"><span class="citerelations_relationLabel">aligns</span><span class="citerelations_relationUrn"><span class="cite_urn cite2Urn">urn:cite2:cite:verbs.v1:aligns</span></span></span>
 <span class="citerelations_object"><span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0-8.22.5</span></span>
-</span>
+</span>"""
+    //showMe(serialized)
+    assert( serialized == expected ) 
+  }
 
-<h3>CITE Relation Set</h3>
-
-<div class="citerelations_relationSet">
+  it should "write a CiteRelationSet" in {
+    val cr = lib.collectionRepository
+    val crs = lib.relationSet.get
+    val serialized = HtmlWriter.writeCiteRelationSet(crs)
+    //showMe(serialized)
+    val expected = """<div class="citerelations_relationSet">
 <span class="citerelations_citeTriple">
 <span class="citerelations_subject"><span class="cite_urn cite2Urn">urn:cite2:fufolio:hdtAlign.blackwell:2</span></span>
 <span class="citerelations_relation"><span class="cite_urn cite2Urn">urn:cite2:cite:verbs.v1:aligns</span></span>
@@ -139,9 +187,16 @@
 <span class="citerelations_relation"><span class="cite_urn cite2Urn">urn:cite2:cite:verbs.v1:aligns</span></span>
 <span class="citerelations_object"><span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0-8.22.5</span></span>
 </span>
-</div>
+</div>"""
+  assert(serialized == expected)
+  }
 
-<div class="citerelations_relationSet">
+ it should "write a CiteRelationSet with relations labeled" in {
+    val cr = lib.collectionRepository
+    val crs = lib.relationSet.get
+    val serialized = HtmlWriter.writeCiteRelationSet(crs, cr)
+    //showMe(serialized)
+    val expected = """<div class="citerelations_relationSet">
 <span class="citerelations_citeTriple">
 <span class="citerelations_subject"><span class="cite_urn cite2Urn">urn:cite2:fufolio:hdtAlign.blackwell:2</span></span>
 <span class="citerelations_relation"><span class="citerelations_relationLabel">aligns</span><span class="citerelations_relationUrn"><span class="cite_urn cite2Urn">urn:cite2:cite:verbs.v1:aligns</span></span></span>
@@ -177,9 +232,8 @@
 <span class="citerelations_relation"><span class="citerelations_relationLabel">aligns</span><span class="citerelations_relationUrn"><span class="cite_urn cite2Urn">urn:cite2:cite:verbs.v1:aligns</span></span></span>
 <span class="citerelations_object"><span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0-8.22.5</span></span>
 </span>
-</div>
+</div>"""
+  assert(serialized == expected)
+  }
+}
 
-</body>
-
-
-</html>
