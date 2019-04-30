@@ -1,5 +1,9 @@
 # `citewriter`: release notes
 
+**1.0.2**: Complete reworking on serializing a Corpus to HTML. Better display; more flexibility in display.
+
+**1.0.1**: Minor updates.
+
 **1.0.0**: Reorganized Traits and Objects correctly. 
 
 **1.0.0**: CITE Writer Trait, CEX Writer object, and HTML Writer objects now feature-complete.

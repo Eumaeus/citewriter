@@ -80,7 +80,7 @@ urn:cite2:fufolio:iliadAlign.blackwell:4#Iliad 2#Iliad Alignment 2#cwb#2/12/2019
   	val psg:String = "Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος"
   	val cn:CitableNode = CitableNode(urn, psg)
   	val serialized:String = HtmlWriter.writeCitableNode(cn)
-  	val expected:String = """<span class="ohco2_citableNodeContainer" id="urn:cts:greekLit:tlg0012.tlg001.msA:1.1"><span class=" ohco2_passageComponent">1.1</span><span class="ohco2_citableNodeText">Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος</span><span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0012.tlg001.msA:1.1</span></span>"""
+  	val expected:String = """<span class="ohco2_citableNodeContainer" id="urn:cts:greekLit:tlg0012.tlg001.msA:1.1"><span class="ohco2_citableNodeText">Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος</span><span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0012.tlg001.msA:1.1</span></span>"""
     //showMe(serialized)
   	assert ( serialized == expected )
   }
@@ -99,7 +99,8 @@ urn:cite2:fufolio:iliadAlign.blackwell:4#Iliad 2#Iliad Alignment 2#cwb#2/12/2019
     val lang = ce.lang
   
     val serialized:String = HtmlWriter.writeCtsCatalogEntry(ce)  
-    val expected:String = """<span class="ohco2_catalogEntry"> <span class="ohco2_catalogEntry_lang">grc</span> <span class="ohco2_catalogEntry_groupName">Herodotus</span> <span class="ohco2_catalogEntry_workTitle">Histories</span> <span class="ohco2_catalogEntry_versionLabel">Tokenized Greek, Godley, ed.</span> <span class="ohco2_catalogEntry_online">online</span> <span class="ohco2_catalogEntry_citationScheme">book/section/token</span> <span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0016.tlg001.grc_tokens:</span> </span>"""
+    println(s"\n\n${serialized}\n\n")
+    val expected:String = """<div class="ohco2_catalogEntry"> <span class="ohco2_catalogEntry_lang">grc</span> <span class="ohco2_catalogEntry_groupName">Herodotus</span> <span class="ohco2_catalogEntry_workTitle">Histories</span> <span class="ohco2_catalogEntry_versionLabel">Tokenized Greek, Godley, ed.</span> <span class="ohco2_catalogEntry_online">online</span> <span class="ohco2_catalogEntry_citationScheme">book/section/token</span> <span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0016.tlg001.grc_tokens:</span> </div>"""
     //showMe(serialized)
     assert(serialized == expected)
   }

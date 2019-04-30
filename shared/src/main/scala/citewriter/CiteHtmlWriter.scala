@@ -23,6 +23,11 @@ trait CiteHtmlWriter extends CiteWriter {
     }
   } 
 
+ def writeCtsPassageForDisplay(u:CtsUrn):String = {
+   s"""<span class="ohco2_passageComponent ohco2_displayPassage">${u.passageComponent}</span>"""
+ }
+
+
   def groupCorpusByText(c:Corpus):Vector[Corpus] = {
     import scala.collection.mutable.LinkedHashMap
     val vcn:Vector[(CtsUrn, CitableNode)] = c.nodes.map(cn => {
@@ -86,7 +91,8 @@ trait CiteHtmlWriter extends CiteWriter {
   }
 
   def writeCitableNode(cn:CitableNode, tokenized:Boolean):String = {
-    val passage:String = writeCtsUrnPassage(cn.urn) 
+    //val passage:String = writeCtsUrnPassage(cn.urn) 
+    val passage:String = ""
     val urn:String = writeUrn(cn.urn)  
     val text:String = writeCitableNodeText(cn)
     val nodeClass:String = tokenized match {
@@ -104,6 +110,7 @@ trait CiteHtmlWriter extends CiteWriter {
   *  If 'tokenized' put a marker on citable nodes and divide
   *  by the 2nd-tier of the citatation.
   **/
+  /*
   def writeCorpus(corpus:Corpus, tokenized:Boolean = false, catalog:Option[edu.holycross.shot.ohco2.Catalog] = None):String = {
     
     // Group by version and citation
@@ -152,6 +159,195 @@ trait CiteHtmlWriter extends CiteWriter {
     versionsHtml.mkString("\n")
 
   }
+  */
+
+  def writeCorpus(corpus:Corpus, tokenized:Boolean = false, catalog:Option[edu.holycross.shot.ohco2.Catalog] = None):String = {
+
+    val versionVec:Vector[Corpus] = groupCorpusByText(corpus)
+    val stringVec:Vector[String] = versionVec.map(vcorp => {
+      writeSingleTextCorpus(vcorp, tokenized, catalog)
+    })
+
+    stringVec.mkString("\n<!-- version split -->\n")
+  }
+
+  /*
+    Assumes the corpus has been divided by text-version
+  */
+  def writeSingleTextCorpus(corpus:Corpus, tokenizedCorpus:Boolean = false, catalog:Option[edu.holycross.shot.ohco2.Catalog] = None):String = {
+
+    // tokenized
+
+    val tokenized:Boolean = {
+      val longestNode:Int = corpus.nodes.map(_.text.size).max
+      val shortPassages:Boolean = longestNode < 20
+      tokenizedCorpus | shortPassages
+    }
+
+    // preserve order of passages
+    val urnMap:Vector[(CtsUrn,Int)] = corpus.urns.zipWithIndex
+
+    // At what level to display citations
+    val orgLevel:Int = {
+      if (tokenized) 1 else 0
+    }
+
+    // Divide text with spacers down to this level
+    val minLevel:Int = {
+      urnMap.map(_._1.citationDepth.head).min - (orgLevel + 1)
+    }
+
+    // Get the different levels, for mapping to passages 
+    val levelVec:Vector[Int] = (1 to minLevel).toVector
+
+    // Map places where citations change (new book, new sections, etc.)
+    val breakPoints:Vector[Int] = {
+      levelVec.map( l => {
+        tempLevelMap(urnMap,l)
+      }).flatten.sortBy(i => i).distinct
+    }
+
+    // Map places where we want to include a visible citation
+    val citationPoints:Vector[Int] = {
+      val collapseTo:Int = (urnMap.map(_._1.citationDepth.head).min - orgLevel)
+      tempLevelMap(urnMap,collapseTo).diff(breakPoints)
+    }
+
+    // Get HTML for citation-breaks
+    val breakPointsHtml:Vector[(String,Int)] = {
+      val tokenizedClass = {
+        if (tokenized) " ohco2_tokenized" else ""
+      } 
+      val nodes:Vector[(CitableNode,Int)] = {
+        corpus.nodes.zipWithIndex.filter( n => {
+          breakPoints.contains(n._2)  
+        })
+      }
+      val headNode:Vector[(String,Int)] = {
+        val open:String = {
+          if (tokenized) {
+            s"""<div class="ohco2_passageGroup ohco2_stanza"><div class="ohco2_passageGroup ${tokenizedClass}">"""
+          }
+          else {
+            s"""<div class="ohco2_passageGroup  ohco2_stanza ${tokenizedClass}">"""
+          }
+        }
+        val citationString:String = {
+          if (tokenized) {
+            writeCtsPassageForDisplay(nodes.head._1.urn.collapsePassageBy(1))
+          } else {
+            writeCtsPassageForDisplay(nodes.head._1.urn)
+          }
+        }
+        val nodeString:String = writeCitableNode(nodes.head._1)
+        val index:Int = nodes.head._2
+        val str:String = Vector(open,citationString,nodeString).mkString("\n")
+        Vector((str,index))
+      }
+      val tailNodes:Vector[(String,Int)] = {
+        nodes.tail.map( n => {
+          val open:String = {
+            if (tokenized) {
+              s"""</div></div><div class="ohco2_passageGroup  ohco2_stanza"><div class="ohco2_passageGroup ${tokenizedClass}">"""
+            } else {
+              s"""</div><div class="ohco2_passageGroup  ohco2_stanza ${tokenizedClass}">"""
+            }
+          }
+          val citationString:String = {
+            if (tokenized) {
+              writeCtsPassageForDisplay(n._1.urn.collapsePassageBy(1))
+            } else {
+              writeCtsPassageForDisplay(n._1.urn)
+            }
+          }
+          val nodeString:String = writeCitableNode(n._1)
+          val index:Int = n._2
+          val str:String = Vector(open,citationString,nodeString).mkString("\n")
+          (str,index)
+        })
+      }
+      headNode ++ tailNodes
+    }
+
+    // Get html for places where we want explicit visible citations
+    val citationNodesHtml:Vector[(String,Int)] = {
+      val tokenizedClass = {
+        if (tokenized) " ohco2_tokenized" else ""
+      }
+
+      val open:String = {
+        if (tokenized) {
+          s"""</div></div><div class="ohco2_passageGroup"><div class="ohco2_passageGroup ${tokenizedClass}">"""
+        } else {
+          s"""</div><div class="ohco2_passageGroup ${tokenizedClass}">"""
+        }
+      }
+
+      val nodes:Vector[(CitableNode,Int)] = corpus.nodes.zipWithIndex.filter( n => citationPoints.contains(n._2) )
+      
+      nodes.map( n => {
+          val citationString:String = {
+            if (tokenized) {
+              writeCtsPassageForDisplay(n._1.urn.collapsePassageBy(1))
+            } else {
+              writeCtsPassageForDisplay(n._1.urn)
+            }
+          }
+          val nodeString:String = writeCitableNode(n._1)
+          val index:Int = n._2
+          val str:String = Vector(open,citationString,nodeString).mkString("\n")
+          (str,index)
+        })
+    }
+
+    // Get HTML for all other nodes
+    val otherNodesHtml:Vector[(String,Int)] = {
+      val tokenizedClass = {
+        if (tokenized) " ohco2_tokenized" else ""
+      }
+
+      val nodes:Vector[(CitableNode,Int)] = corpus.nodes.zipWithIndex.filter( n => {
+       ( citationPoints.contains(n._2) == false ) & ( breakPoints.contains(n._2) == false )
+     })
+
+      nodes.map( n => {
+        val nodeString:String = writeCitableNode(n._1)
+        val index:Int = n._2
+        val str:String = nodeString
+        (str,index)
+      })
+    }
+
+    // If requested, grab the catalog entry
+    val catEntry:String = {
+      catalog match {
+        case Some(cat) => {
+          val ce:Vector[CatalogEntry] = cat.entriesForUrn(corpus.nodes.head.urn.dropPassage)
+          ce.map(writeCtsCatalogEntry(_)).mkString("\n\n")
+        }
+      case None => ""
+      }
+    }
+
+    val allNodesStr:String = {
+      val bigString:String = {
+        if (tokenized) {
+          (breakPointsHtml ++ citationNodesHtml ++ otherNodesHtml).sortBy(_._2).map(_._1).mkString("\n") + "\n<!-- tokenized allNodes -->\n</div></div>"
+        } else {
+          (breakPointsHtml ++ citationNodesHtml ++ otherNodesHtml).sortBy(_._2).map(_._1).mkString("\n") + "\n<!-- not tokenized allNodes -->\n</div>"
+        }
+      }
+      """<div class="ohco2_versionCorpus">""" + catEntry + bigString + "\n<!-- wrapper -->\n</div>" 
+    }
+
+    allNodesStr
+
+  }
+
+  // Private method for mapping URNs according to levels
+  private def tempLevelMap(uMap:Vector[(CtsUrn,Int)], l:Int):Vector[Int] = {
+    uMap.view.groupBy(_._1.collapsePassageTo(l)).toVector.sortBy(_._2.head._2).map(_._2.head._2)
+  }
 
   def writeCitableNodeText(cn:CitableNode):String = {
     s"""<span class="ohco2_citableNodeText">${cn.text}</span>"""
@@ -159,7 +355,7 @@ trait CiteHtmlWriter extends CiteWriter {
 
   def writeCtsUrnPassage(u:CtsUrn):String = {
     if (u.passageComponent.size > 0) {
-      s"""<span class=" ohco2_passageComponent">${u.passageComponent}</span>"""
+      s"""<span class=" ohco2_passageComponent">!!! ${u.passageComponent}</span>"""
     } else {
       ""    
     }
@@ -195,7 +391,7 @@ trait CiteHtmlWriter extends CiteWriter {
     }
     val lang:String = s"""<span class="ohco2_catalogEntry_lang">${ce.lang}</span>"""
     val htmlVec:Vector[String] = Vector(
-        """<span class="ohco2_catalogEntry">""",
+        """<div class="ohco2_catalogEntry">""",
         lang,
         groupName,
         workTitle,
@@ -203,7 +399,7 @@ trait CiteHtmlWriter extends CiteWriter {
         online,
         citationScheme,
         urn,
-        """</span>"""
+        """</div>"""
     )
     htmlVec.mkString(" ")
  }

@@ -18,7 +18,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file("."))
 	name := "citewriter",
 	organization := "edu.furman.classics",
 
-	version := "1.0.1",
+	version := "1.0.2",
 
 	licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
 
@@ -32,7 +32,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file("."))
 		"edu.holycross.shot.cite" %%% "xcite" % "4.0.2",
 		"edu.holycross.shot" %%% "ohco2" % "10.12.5",
 		"edu.holycross.shot" %%% "scm" % "6.1.3",
-		"edu.holycross.shot" %%% "citeobj" % "7.3.0",
+		"edu.holycross.shot" %%% "citeobj" % "7.3.2",
 		"edu.holycross.shot" %%% "citerelations" % "2.4.0",
 		"org.scalatest" %%% "scalatest" % "3.0.1" %  "test",
 	),

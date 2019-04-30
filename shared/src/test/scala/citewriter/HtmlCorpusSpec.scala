@@ -147,7 +147,7 @@ urn:cts:fufolio:pope.iliad.fu2019:1.3.8#The brother-kings, of Atreus' royal race
  	val urn1:CtsUrn = CtsUrn("urn:cts:fufolio:pope.iliad.fu2019:")
   val corp = tr.corpus ~~ urn1
  	val serialized:String = HtmlWriter.writeCorpus(corp)
-  //showMe(serialized)
+  showMe(serialized)
   assert (true)
  }
 
@@ -156,7 +156,8 @@ urn:cts:fufolio:pope.iliad.fu2019:1.3.8#The brother-kings, of Atreus' royal race
   val urn1:CtsUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.perseus_grc2_tokens:")
   val corp = tr.corpus ~~ urn1
   val serialized:String = HtmlWriter.writeCorpus(corp, tokenized = true)
-  //showMe(serialized)
+  println(s"showing for urn:cts:greekLit:tlg0012.tlg001.perseus_grc2_tokens:")
+  showMe(serialized)
  }
 
  it should "optionally include bibliographic data" in {
@@ -167,7 +168,7 @@ urn:cts:fufolio:pope.iliad.fu2019:1.3.8#The brother-kings, of Atreus' royal race
   val corp = c1 ++ c2
   val cat = tr.catalog
   val serialized:String = HtmlWriter.writeCorpus(corp, tokenized = false, Some(cat))
-  //showMe(serialized)
+  showMe(serialized)
  }
 
  it should "handle a mix of tokenized and untokenized texts attractively" in {

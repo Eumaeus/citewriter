@@ -172,6 +172,7 @@ urn:cite2:fufolio:hdtAlign.blackwell.date:@Date@String@"""
     assert( cr2Option.get.data.size == cr.data.size  )
   }
 
+/*
   it should "write a collection repository to a complete CEX file with alternate delimiters" in {
     val crCex:String = CexWriter.writeCollectionRepository(cr, true, "@","!")
     val newLib:CiteLibrary = loadLibrary(crCex)
@@ -180,6 +181,7 @@ urn:cite2:fufolio:hdtAlign.blackwell.date:@Date@String@"""
     assert( cr2Option.get.catalog == cr.catalog  )
     assert( cr2Option.get.data.size == cr.data.size  )
   }
+  */
 
 
 }
