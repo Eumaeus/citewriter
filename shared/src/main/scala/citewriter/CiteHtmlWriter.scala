@@ -404,6 +404,7 @@ trait CiteHtmlWriter extends CiteWriter {
     htmlVec.mkString(" ")
  }
 
+
 /* CITE Object */
 
 
