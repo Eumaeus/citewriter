@@ -56,7 +56,7 @@ urn:cite2:fufolio:iliadAlign.blackwell:6#Iliad 4#Iliad Alignment 4#cwb#2/12/2019
 """
 
   def loadLibrary(cexString:String = cex, delimOne:String = "#", delimTwo:String = ","):CiteLibrary = {
-    val library = CiteLibrary(cexString,"#",",")
+    val library = CiteLibrary(cexString)
     library
   }
 
@@ -118,14 +118,14 @@ urn:cite2:fufolio:iliadAlign.blackwell:6#Iliad 4#Iliad Alignment 4#cwb#2/12/2019
   it should "serialize a Cite Collection Def" in {
     val expected:String = "urn:cite2:fufolio:hdtAlign.blackwell:#Translation alignments#urn:cite2:fufolio:hdtAlign.blackwell.label:##Public Domain"
     val ccd:CiteCollectionDef = cr.catalog.collection(Cite2Urn("urn:cite2:fufolio:hdtAlign.blackwell:")).get
-    val serialized:String = CexWriter.writeCiteCollectionDef(ccd)  
+    val serialized:String = CexWriter.writeCiteCollectionDef(ccd)
     assert ( serialized == expected )
   }
 
   it should "serialize a Cite Collection Def with alternate delimiters" in {
     val expected:String = "urn:cite2:fufolio:hdtAlign.blackwell:@Translation alignments@urn:cite2:fufolio:hdtAlign.blackwell.label:@@Public Domain"
     val ccd:CiteCollectionDef = cr.catalog.collection(Cite2Urn("urn:cite2:fufolio:hdtAlign.blackwell:")).get
-    val serialized:String = CexWriter.writeCiteCollectionDef(ccd, "@")  
+    val serialized:String = CexWriter.writeCiteCollectionDef(ccd, "@")
     assert ( serialized == expected )
   }
 
@@ -134,7 +134,7 @@ urn:cite2:fufolio:iliadAlign.blackwell:6#Iliad 4#Iliad Alignment 4#cwb#2/12/2019
 URN#Description#Labelling property#Ordering property#License
 urn:cite2:fufolio:hdtAlign.blackwell:#Translation alignments#urn:cite2:fufolio:hdtAlign.blackwell.label:##Public Domain
 urn:cite2:fufolio:iliadAlign.blackwell:#Translation alignments#urn:cite2:fufolio:iliadAlign.blackwell.label:##Public Domain"""
-    val serialized:String = CexWriter.writeCiteCollectionsBlock(cr) 
+    val serialized:String = CexWriter.writeCiteCollectionsBlock(cr)
   }
 
   it should "serialized a CiteProperties block" in {
@@ -185,4 +185,3 @@ urn:cite2:fufolio:hdtAlign.blackwell.date:@Date@String@"""
 
 
 }
-
