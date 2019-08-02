@@ -60,7 +60,7 @@ urn:cite2:fufolio:iliadAlign.blackwell:4#Iliad 2#Iliad Alignment 2#cwb#2/12/2019
 """
 
  def loadLibrary(cexString:String = cex):CiteLibrary = {
-    val library = CiteLibrary(cexString,"#",",")
+    val library = CiteLibrary(cexString)
     library
   }
 
@@ -97,8 +97,8 @@ urn:cite2:fufolio:iliadAlign.blackwell:4#Iliad 2#Iliad Alignment 2#cwb#2/12/2019
     val exemplarLabel = "Some exemplar"
     val online = ce.online
     val lang = ce.lang
-  
-    val serialized:String = HtmlWriter.writeCtsCatalogEntry(ce)  
+
+    val serialized:String = HtmlWriter.writeCtsCatalogEntry(ce)
     println(s"\n\n${serialized}\n\n")
     val expected:String = """<div class="ohco2_catalogEntry"> <span class="ohco2_catalogEntry_lang">grc</span> <span class="ohco2_catalogEntry_groupName">Herodotus</span> <span class="ohco2_catalogEntry_workTitle">Histories</span> <span class="ohco2_catalogEntry_versionLabel">Tokenized Greek, Godley, ed.</span> <span class="ohco2_catalogEntry_online">online</span> <span class="ohco2_catalogEntry_citationScheme">book/section/token</span> <span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0016.tlg001.grc_tokens:</span> </div>"""
     //showMe(serialized)
@@ -169,7 +169,7 @@ urn:cite2:fufolio:iliadAlign.blackwell:4#Iliad 2#Iliad Alignment 2#cwb#2/12/2019
     val serialized:String = HtmlWriter.writeCiteObject(obj, cd)
     assert (serialized == expected)
   }
-  
+
   it should "write a CiteCollectionDef" in {
     val cr:CiteCollectionRepository = lib.collectionRepository.get
     val u:Cite2Urn = Cite2Urn("urn:cite2:fufolio:iliadAlign.blackwell:")
@@ -179,4 +179,3 @@ urn:cite2:fufolio:iliadAlign.blackwell:4#Iliad 2#Iliad Alignment 2#cwb#2/12/2019
   }
 
 }
-

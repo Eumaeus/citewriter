@@ -94,7 +94,7 @@ urn:cite2:cite:datamodels.v1:alignment#text alignment model#Aligning passages of
 """
 
  def loadLibrary(cexString:String = cex):CiteLibrary = {
-    val library = CiteLibrary(cexString,"#",",")
+    val library = CiteLibrary(cexString)
     library
   }
 
@@ -143,7 +143,7 @@ urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:gr
 <span class="citerelations_object"><span class="cite_urn ctsUrn">urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.0-8.22.5</span></span>
 </span>"""
     //showMe(serialized)
-    assert( serialized == expected ) 
+    assert( serialized == expected )
   }
 
   it should "write a CiteRelationSet" in {
@@ -236,4 +236,3 @@ urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:gr
   assert(serialized == expected)
   }
 }
-

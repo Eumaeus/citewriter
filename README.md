@@ -4,7 +4,7 @@
 
 `citewriter` is a cross-platform library for serializing data from the [CITE-Architecture](https:cite-architecture.org).
 
-## Current version: 1.0.2
+## Current version: 1.0.3
 
 Status:  **active development**. [Release notes](releases.md)
 
@@ -34,5 +34,3 @@ For maven, ivy or gradle equivalents, refer to <https://bintray.com/eumaeus/mave
 To build from source and test for a given version, use normal sbt commands (`compile`, `test` ...).
 
 You can also test or run tasks against all versions, using `+` before the task name.  E.g.,  `sbt "+ test"` runs the `test` task against all versions.
-
-`citewriter` is used by the CITE library manager `scm`.  The `scm` wiki at <https://github.com/cite-architecture/scm/wiki> includes examples of how to create an ohco2 `TextRepository` from local files in various formats.

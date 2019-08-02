@@ -63,7 +63,7 @@ urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:gr
 """
 
   def loadLibrary(cexString:String = cex, delimOne:String = "#", delimTwo:String = ","):CiteLibrary = {
-    val library = CiteLibrary(cexString,"#",",")
+    val library = CiteLibrary(cexString)
     library
   }
 
@@ -89,11 +89,11 @@ urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:gr
   it should "serialize a CiteRelationSet" in {
     val crs:CiteRelationSet = rs
     val rsCex:String = CexWriter.writeCiteRelationBlock(rs, standalone = true)
-    val relationsLib:CiteLibrary = CiteLibrary(rsCex,"#",",")
+    val relationsLib:CiteLibrary = CiteLibrary(rsCex)
     val newRelSet:CiteRelationSet = relationsLib.relationSet.get
     assert( newRelSet == rs )
   }
-  
+
 
 
   it should "serialize a CiteRelationSet with an alternate delimiter" in pending
@@ -110,4 +110,3 @@ urn:cite2:fufolio:hdtAlign.blackwell:2#urn:cite2:cite:verbs.v1:aligns#urn:cts:gr
 
 
 }
-

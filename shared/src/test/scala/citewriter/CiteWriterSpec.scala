@@ -31,13 +31,13 @@ urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.2#νέας
 
   /*
   def loadLibrary(fp:String = cexPath):CiteLibrary = {
-    val library = CiteLibrary(Source.fromFile(fp).getLines.mkString("\n"),"#",",")
+    val library = CiteLibrary(Source.fromFile(fp).getLines.mkString("\n"))
     library
   }
   */
 
   def loadLibrary(cexString:String = cex):CiteLibrary = {
-    val library = CiteLibrary(cexString,"#",",")
+    val library = CiteLibrary(cexString)
     library
   }
 
@@ -49,4 +49,3 @@ urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.2#νέας
   	assert (  urnString == "urn:cts:greekLit:tlg0012.tlg001:msA:1.1" )
   }
 }
-
