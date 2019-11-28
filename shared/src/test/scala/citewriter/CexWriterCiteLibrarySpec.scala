@@ -221,7 +221,7 @@ urn:cts:fufolio:pope.iliad.fu2019:1.3.8#The brother-kings, of Atreus' royal race
 """
 
   def loadLibrary(cexString:String = cex, delimOne:String = "#", delimTwo:String = ","):CiteLibrary = {
-    val library = CiteLibrary(cexString)
+    val library = CiteLibrary(cexString,"#",",")
     library
   }
 
@@ -259,8 +259,9 @@ urn:cts:fufolio:pope.iliad.fu2019:1.3.8#The brother-kings, of Atreus' royal race
     assert( newLib.relationSet.get == rs )
     assert( newLib.dataModels != None )
     assert( newLib.dataModels.get.size == dms.size )
-
+  	
   }
 
 
 }
+

@@ -18,13 +18,13 @@ trait CiteHtmlWriter extends CiteWriter {
 
   def writeUrn(u:Urn):String = {
     u match {
-      case CtsUrn(_) => s"""<span class="cite_urn ctsUrn">${u}</span>"""
-      case _ => s"""<span class="cite_urn cite2Urn">${u}</span>"""
+      case CtsUrn(_) => s"""<span class="cite_urn ctsUrn" data-ctsurn="${u}">${u}</span>"""
+      case _ => s"""<span class="cite_urn cite2Urn" data-cite2urn="${u}">${u}</span>"""
     }
   } 
 
  def writeCtsPassageForDisplay(u:CtsUrn):String = {
-   s"""<span class="ohco2_passageComponent ohco2_displayPassage">${u.passageComponent}</span>"""
+   s"""<span class="ohco2_passageComponent ohco2_displayPassage" data-ctsurn="${u}">${u.passageComponent}</span>"""
  }
 
 
@@ -92,10 +92,14 @@ trait CiteHtmlWriter extends CiteWriter {
 
   def writeCitableNode(cn:CitableNode, tokenized:Boolean):String = {
     //val passage:String = writeCtsUrnPassage(cn.urn) 
-    val passage:String = ""
-    val urn:String = writeUrn(cn.urn)  
-    val text:String = writeCitableNodeText(cn)
-    val nodeClass:String = tokenized match {
+    val urn: String = writeUrn(cn.urn)  
+    val text: String = writeCitableNodeText(cn)
+    val passage: String = cn.urn.passageComponent
+    val leafComponent: String = {
+      if (passage.contains(".")) { passage.split("\\.").toVector.last}
+      else passage
+    }
+    val nodeClass: String = tokenized match {
       case true => {
         "ohco2_citableNodeContainer ohco2_token"
       }
@@ -103,7 +107,7 @@ trait CiteHtmlWriter extends CiteWriter {
         "ohco2_citableNodeContainer"
       }
     }
-    s"""<span class="${nodeClass}" id="${cn.urn}">${passage}${text}${urn}</span>"""
+    s"""<span class="${nodeClass}" data-ctsurn="${cn.urn}" data-urnPassage="${passage}" data-urnPassageLeaf="${leafComponent}">${text}${urn}</span>"""
   }
 
   /**
@@ -350,12 +354,12 @@ trait CiteHtmlWriter extends CiteWriter {
   }
 
   def writeCitableNodeText(cn:CitableNode):String = {
-    s"""<span class="ohco2_citableNodeText">${cn.text}</span>"""
+    s"""<span class="ohco2_citableNodeText" data-ctsurn="${cn.urn}">${cn.text}</span>"""
   }
 
   def writeCtsUrnPassage(u:CtsUrn):String = {
     if (u.passageComponent.size > 0) {
-      s"""<span class=" ohco2_passageComponent">!!! ${u.passageComponent}</span>"""
+      s"""<span class=" ohco2_passageComponent">${u.passageComponent}</span>"""
     } else {
       ""    
     }
@@ -391,7 +395,7 @@ trait CiteHtmlWriter extends CiteWriter {
     }
     val lang:String = s"""<span class="ohco2_catalogEntry_lang">${ce.lang}</span>"""
     val htmlVec:Vector[String] = Vector(
-        """<div class="ohco2_catalogEntry">""",
+        s"""<div class="ohco2_catalogEntry" data-ctsurn="${ce.urn}">""",
         lang,
         groupName,
         workTitle,
@@ -410,7 +414,7 @@ trait CiteHtmlWriter extends CiteWriter {
 
   def writeCitePropertyDef(cpd:CitePropertyDef):String = {
     val strVec:Vector[String] = Vector(
-      """<span class="citeobj_propertyDef">""",
+      s"""<span class="citeobj_propertyDef" data-cite2urn="${cpd.urn}">""",
       writeUrn(cpd.urn),
       s"""<span class="citeobj_propertyDef_label">${cpd.label}</span>""",
       s"""<span class="citeobj_propertyDef_type">${cpd.propertyType.cex}</span>""",
@@ -434,7 +438,7 @@ trait CiteHtmlWriter extends CiteWriter {
 
   def writeCitePropertyValue(pv:CitePropertyValue):String = {
       val strVec:Vector[String] = Vector(
-        """<span class="citeobj_propertyValue">""",
+        s"""<span class="citeobj_propertyValue" data-cite2urn="${pv.urn}">""",
         writeUrn(pv.urn),
         s"""<span class="citeobj_propertyValue_value">${pv.propertyValue}</span>""",
         """</span>"""

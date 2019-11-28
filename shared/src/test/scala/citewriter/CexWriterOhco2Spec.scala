@@ -34,7 +34,7 @@ urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.2#selected
 """
 
   def loadLibrary(cexString:String = cex, delimOne:String = "#", delimTwo:String = ","):CiteLibrary = {
-    val library = CiteLibrary(cexString)
+    val library = CiteLibrary(cexString,"#",",")
     library
   }
 
@@ -88,10 +88,10 @@ urn:cts:greekLit:tlg0016.tlg001.eng_tokens:#book/section/token#Herodotus#Histori
 
       val ce1:CatalogEntry = {
         lib.textRepository.get.catalog.entriesForUrn(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.grc_tokens:"))(0)
-      }
+      } 
       val ce2:CatalogEntry = {
         lib.textRepository.get.catalog.entriesForUrn(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng_tokens:"))(0)
-      }
+      } 
       val vce:Vector[CatalogEntry] = Vector(ce1,ce2)
       val catBlock:String = CexWriter.writeCtsCatalogBlock(vce)
       assert( catBlock == expected )
@@ -106,10 +106,10 @@ urn:cts:greekLit:tlg0016.tlg001.eng_tokens:@book/section/token@Herodotus@Histori
 
       val ce1:CatalogEntry = {
         lib.textRepository.get.catalog.entriesForUrn(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.grc_tokens:"))(0)
-      }
+      } 
       val ce2:CatalogEntry = {
         lib.textRepository.get.catalog.entriesForUrn(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng_tokens:"))(0)
-      }
+      } 
       val vce:Vector[CatalogEntry] = Vector(ce1,ce2)
       val catBlock:String = CexWriter.writeCtsCatalogBlock(vce,"@")
       assert( catBlock == expected )
@@ -168,3 +168,4 @@ urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.2@selected"""
   }
 
 }
+
