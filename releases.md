@@ -1,6 +1,6 @@
 # `citewriter`: release notes
 
-**1.2.3**: Artifact published now at https://terracotta.hpcc.uh.edu/nexus/repository/maven-releases/
+**1.2.4**: Artifact published now at https://terracotta.hpcc.uh.edu/nexus/repository/maven-releases/
 
 **1.2.2**: Bug fixes, based on updated dependencies.
 
