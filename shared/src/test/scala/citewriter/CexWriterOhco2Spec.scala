@@ -34,7 +34,7 @@ urn:cts:greekLit:tlg0016.tlg001.eng_tokens:8.22.2#selected
 """
 
   def loadLibrary(cexString:String = cex, delimOne:String = "#", delimTwo:String = ","):CiteLibrary = {
-    val library = CiteLibrary(cexString,"#",",")
+    val library = CiteLibrary(cexString)
     library
   }
 

@@ -7,7 +7,7 @@ import edu.holycross.shot.scm._
 import edu.holycross.shot.citeobj._
 import edu.holycross.shot.ohco2._
 
-object Main extends js.JSApp {
+object Main  {
   def main(): Unit = {
 
         val cexSrc = """#!citelibrary

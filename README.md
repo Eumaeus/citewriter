@@ -4,7 +4,7 @@
 
 `citewriter` is a cross-platform library for serializing data from the [CITE-Architecture](https:cite-architecture.org).
 
-## Current version: 1.2.0
+## Current version: 1.2.3
 
 Status:  **active development**. [Release notes](releases.md)
 
@@ -20,9 +20,13 @@ See <https://github.com/Eumaeus/citewriter>.
 
 ## Using, building, testing
 
-`citewriter` can be built for both the JVM and ScalaJS using any version of Scala 2.11 or higher.  Binaries for both the JVM and ScalaJS are available from jcenter built with Scala 2.12.3.  To use the binaries in an sbt project, include `Resolver.jcenterRepo`in your list of resolvers
+`citewriter` can be built for both the JVM and ScalaJS using any version of Scala 2.11 or higher.  Binaries for all three versions are available from the Nexus repository on <terracotta.hpcc.uh.edu/nexus>.
 
-    resolvers += Resolver.jcenter
+If you are using sbt, include `Resolver.jcenterRepo` in your list of resolvers
+
+```scala
+	resolvers += "Nexus" at "https://terracotta.hpcc.uh.edu/nexus/repository/maven-releases/",
+```
 
 and  add this to your library dependencies:
 

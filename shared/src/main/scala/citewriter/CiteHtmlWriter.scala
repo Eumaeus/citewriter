@@ -180,6 +180,7 @@ trait CiteHtmlWriter extends CiteWriter {
   */
   def writeSingleTextCorpus(corpus:Corpus, tokenizedCorpus:Boolean = false, catalog:Option[edu.holycross.shot.ohco2.Catalog] = None):String = {
 
+
     // tokenized
 
     val tokenized:Boolean = {
@@ -198,7 +199,7 @@ trait CiteHtmlWriter extends CiteWriter {
 
     // Divide text with spacers down to this level
     val minLevel:Int = {
-      urnMap.map(_._1.citationDepth.head).min - (orgLevel + 1)
+      urnMap.map(_._1.citationDepth.head).min - (orgLevel)
     }
 
     // Get the different levels, for mapping to passages 

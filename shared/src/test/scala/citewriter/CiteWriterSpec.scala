@@ -37,7 +37,7 @@ urn:cts:greekLit:tlg0016.tlg001.grc_tokens:8.22.2#νέας
   */
 
   def loadLibrary(cexString:String = cex):CiteLibrary = {
-    val library = CiteLibrary(cexString,"#",",")
+    val library = CiteLibrary(cexString)
     library
   }
 

@@ -63,7 +63,7 @@ urn:cite2:fufolio:iliadAlign.blackwell:6#Iliad 4#Iliad Alignment 4#cwb#2/12/2019
 """
 
   def loadLibrary(cexString:String = cex, delimOne:String = "#", delimTwo:String = ","):CiteLibrary = {
-    val library = CiteLibrary(cexString,"#",",")
+    val library = CiteLibrary(cexString)
     library
   }
 
@@ -89,7 +89,7 @@ urn:cite2:fufolio:iliadAlign.blackwell:6#Iliad 4#Iliad Alignment 4#cwb#2/12/2019
       val dmv:Vector[DataModel] = lib.dataModels.get     
       assert(dmv.size == 2)
       val dmvCex:String = CexWriter.writeDataModelBlock(dmv, standalone = true)
-      val dmvLib:CiteLibrary = CiteLibrary(dmvCex,"#",",")
+      val dmvLib:CiteLibrary = CiteLibrary(dmvCex)
       assert( dmvLib.dataModels != None)
       assert( dmvLib.dataModels.get.size == lib.dataModels.get.size )
 

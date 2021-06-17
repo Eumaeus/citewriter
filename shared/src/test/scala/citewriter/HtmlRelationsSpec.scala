@@ -94,7 +94,7 @@ urn:cite2:cite:datamodels.v1:alignment#text alignment model#Aligning passages of
 """
 
  def loadLibrary(cexString:String = cex):CiteLibrary = {
-    val library = CiteLibrary(cexString,"#",",")
+    val library = CiteLibrary(cexString)
     library
   }
 

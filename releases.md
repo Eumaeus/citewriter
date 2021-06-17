@@ -1,5 +1,11 @@
 # `citewriter`: release notes
 
+**1.2.3**: Artifact published now at https://terracotta.hpcc.uh.edu/nexus/repository/maven-releases/
+
+**1.2.2**: Bug fixes, based on updated dependencies.
+
+**1.2.1**: Updated library dependencies.
+
 **1.2.0**: Writing discrete passage-components and passage-leaf-components as data-attributes on citable nodes.
 
 **1.1.0**: Writing URNs as data-attributes on appropriate HTML elements.
